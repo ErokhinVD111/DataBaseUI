@@ -6,7 +6,7 @@ import java.sql.Connection;
 
 public class DataBaseController implements IDataBaseController{
 
-    Connection connectionToDataBase;
+    private Connection connectionToDataBase;
 
     private final DataBaseConnector connectorToDataBase;
 
@@ -29,12 +29,17 @@ public class DataBaseController implements IDataBaseController{
     }
 
     @Override
-    public boolean authorizationUser(User user) {
+    public void disconnectFromDataBase() {
+
+    }
+
+    @Override
+    public boolean authorizeUser(User user) {
         return false;
     }
 
     @Override
-    public boolean registrationUser(User user) {
+    public boolean registerUser(User user) {
         return false;
     }
 

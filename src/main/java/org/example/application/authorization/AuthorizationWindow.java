@@ -1,5 +1,6 @@
 package org.example.application.authorization;
 
+import org.example.application.registration.RegistrationWindow;
 import org.example.database.DataBaseController;
 import org.example.database.IDataBaseController;
 import org.example.user.User;
@@ -15,6 +16,11 @@ public class AuthorizationWindow extends JFrame {
 
     private JTextField loginTextField;
     private JPasswordField passwordField;
+    private RegistrationWindow registrationWindow = null;
+
+    private final String FAILED_SIGN_IN = "Ошибка входа";
+    private final String FAILED_SIGH_IN_DESCRIPTION = "Неверный логин или пароль";
+
 
     private IDataBaseController dataBaseController;
 
@@ -81,6 +87,15 @@ public class AuthorizationWindow extends JFrame {
     private void createListenerForRegistration(JButton buttonRegistration) {
         buttonRegistration.addActionListener((ActionEvent event) -> {
             //запуск нового окна с регистрацией
+            if (registrationWindow == null) {
+                registrationWindow = new RegistrationWindow(dataBaseController);
+            }
+            else {
+                if (!registrationWindow.isDisplayable()) {
+                    registrationWindow = new RegistrationWindow(dataBaseController);
+                }
+            }
+
         });
     }
 
@@ -91,14 +106,14 @@ public class AuthorizationWindow extends JFrame {
             User user = new User(login, password);
             try {
                 this.dataBaseController.connectToDataBase();
-                boolean isAuthorized = this.dataBaseController.authorizationUser(user);
+                boolean isAuthorized = this.dataBaseController.authorizeUser(user);
                 if (isAuthorized) {
                     //запуск основного окна
                 } else {
                     //вывод сообщения, что пользователь не авторизован
                     JOptionPane.showMessageDialog(this,
-                            "Введен неверный логин или пароль",
-                            "Ошибка авторизации",
+                            FAILED_SIGH_IN_DESCRIPTION,
+                            FAILED_SIGN_IN,
                             JOptionPane.ERROR_MESSAGE);
                 }
 

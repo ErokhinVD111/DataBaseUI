@@ -32,14 +32,13 @@ public class DataBaseConnector implements IDataBaseConnector{
     @Override
     public Connection createConnectionToDataBase() throws Exception {
 
-        System.out.println("PostgreSQL JDBC Driver successfully connected");
         try {
             connection = DriverManager
                     .getConnection(dataBaseUrl, dataBaseUser, dataBasePassword);
 
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new Exception("Connection Failed");
+            throw new Exception("Connection failed");
         }
         return connection;
     }
