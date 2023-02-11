@@ -1,15 +1,17 @@
 package org.example.database;
 
+import org.example.user.User;
+
 import java.sql.Connection;
 
 public class DataBaseController implements IDataBaseController{
 
-    Connection connection;
+    Connection connectionToDataBase;
 
-    private DataBaseConnector connector;
+    private final DataBaseConnector connectorToDataBase;
 
     public DataBaseController() {
-        connector = new DataBaseConnector()
+        connectorToDataBase = new DataBaseConnector()
                 .setDataBaseUrl("test")
                 .setDataBaseUser("vladimir")
                 .setDataBasePassword("123456789");
@@ -19,13 +21,22 @@ public class DataBaseController implements IDataBaseController{
     public void connectToDataBase() {
         new Thread(() -> {
             try {
-                connection = connector.createConnectionToDataBase();
+                connectionToDataBase = connectorToDataBase.createConnectionToDataBase();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }).start();
     }
 
+    @Override
+    public boolean authorizationUser(User user) {
+        return false;
+    }
+
+    @Override
+    public boolean registrationUser(User user) {
+        return false;
+    }
 
 
 }
