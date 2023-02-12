@@ -1,5 +1,6 @@
 package org.example.application.registration;
 
+import org.example.database.DataBaseStatesReturn;
 import org.example.database.IDataBaseController;
 import org.example.user.User;
 
@@ -85,24 +86,25 @@ public class RegistrationWindow extends JFrame {
         buttonRegistration.addActionListener((ActionEvent event) -> {
             //регистрируем нового пользователя
             String login = loginTextField.getText();
-            String password = Arrays.toString(passwordField.getPassword());
+            String password = passwordField.getText();
             String email = emailTextField.getText();
             User user = new User(login, password, email);
             try {
                 dataBaseController.connectToDataBase();
-                boolean isRegistered = dataBaseController.registerUser(user);
-                if (isRegistered) {
+                DataBaseStatesReturn dataBaseStatesReturn = dataBaseController.registerUser(user);
+                if (dataBaseStatesReturn == DataBaseStatesReturn.SUCCESS) {
                     JOptionPane.showMessageDialog(this,
                             SUCCESS_REGISTRATION_DESCRIPTION,
                             SUCCESS_REGISTRATION,
-                            JOptionPane.YES_NO_OPTION);
+                            JOptionPane.INFORMATION_MESSAGE);
                 }
-                else {
+                else  {
                     JOptionPane.showMessageDialog(this,
                             FAILED_REGISTRATION_DESCRIPTION,
                             FAILED_REGISTRATION,
                             JOptionPane.ERROR_MESSAGE);
                 }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

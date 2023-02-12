@@ -3,6 +3,7 @@ package org.example.database;
 import java.sql.DriverManager;
 import java.sql.Connection;
 import java.sql.SQLException;
+import org.postgresql.Driver;
 
 public class DataBaseConnector implements IDataBaseConnector{
 
@@ -31,6 +32,14 @@ public class DataBaseConnector implements IDataBaseConnector{
 
     @Override
     public Connection createConnectionToDataBase() throws Exception {
+
+        try{
+            Class.forName("org.postgresql.Driver").getDeclaredConstructor().newInstance();
+            System.out.println("Connection success!");
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+        }
 
         try {
             connection = DriverManager

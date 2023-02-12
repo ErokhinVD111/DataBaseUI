@@ -4,8 +4,6 @@ import org.example.application.authorization.AuthorizationWindow;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        AuthorizationWindow mainWindow = new AuthorizationWindow();
-//        IDataBaseController dataBaseController = new DataBaseController();
-//        dataBaseController.connectToDataBase();
+        AuthorizationWindow authorizationWindow = new AuthorizationWindow();
     }
 }

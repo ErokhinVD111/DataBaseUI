@@ -2,10 +2,12 @@ package org.example.database;
 
 import org.example.user.User;
 
+import java.sql.SQLException;
+
 public interface IDataBaseController {
     void connectToDataBase() throws Exception;
     void disconnectFromDataBase();
-    boolean authorizeUser(User user);
-    boolean registerUser(User user);
+    DataBaseStatesReturn authorizeUser(User user) throws SQLException;
+    DataBaseStatesReturn registerUser(User user) throws SQLException;
 
 }

@@ -2,12 +2,12 @@ package org.example.application.authorization;
 
 import org.example.application.registration.RegistrationWindow;
 import org.example.database.DataBaseController;
+import org.example.database.DataBaseStatesReturn;
 import org.example.database.IDataBaseController;
 import org.example.user.User;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.util.Arrays;
 import javax.swing.*;
 
 public class AuthorizationWindow extends JFrame {
@@ -20,6 +20,10 @@ public class AuthorizationWindow extends JFrame {
 
     private final String FAILED_SIGN_IN = "Ошибка входа";
     private final String FAILED_SIGH_IN_DESCRIPTION = "Неверный логин или пароль";
+
+    private final String SUCCESS_AUTHORIZATION_DESCRIPTION = "Вход в личный кабинет выполнен успешно!";
+
+    private final String SUCCESS_AUTHORIZATION = "Успешный вход";
 
 
     private IDataBaseController dataBaseController;
@@ -102,13 +106,17 @@ public class AuthorizationWindow extends JFrame {
     private void createListenerForSignIn(JButton buttonSignIn) {
         buttonSignIn.addActionListener((ActionEvent event) -> {
             String login = this.loginTextField.getText();
-            String password = Arrays.toString(this.passwordField.getPassword());
+            String password = this.passwordField.getText();
             User user = new User(login, password);
             try {
                 this.dataBaseController.connectToDataBase();
-                boolean isAuthorized = this.dataBaseController.authorizeUser(user);
-                if (isAuthorized) {
-                    //запуск основного окна
+                DataBaseStatesReturn dataBaseStatesReturn = this.dataBaseController.authorizeUser(user);
+                if (dataBaseStatesReturn == DataBaseStatesReturn.SUCCESS) {
+                    //вывод сообщения об успешной авторизации
+                    JOptionPane.showMessageDialog(this,
+                            SUCCESS_AUTHORIZATION_DESCRIPTION,
+                            SUCCESS_AUTHORIZATION,
+                            JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     //вывод сообщения, что пользователь не авторизован
                     JOptionPane.showMessageDialog(this,
